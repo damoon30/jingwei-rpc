@@ -6,6 +6,7 @@
         <artifactId>rpc</artifactId>
         <groupId>com.jingwei</groupId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath/>
     </parent>
 
 

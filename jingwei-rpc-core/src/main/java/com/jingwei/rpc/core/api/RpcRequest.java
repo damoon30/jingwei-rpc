@@ -12,8 +12,8 @@ import lombok.Data;
 @Data
 public class RpcRequest {
 
-    private String service; // 接口的全限定名，带目录的哪种
-    private String method;  // 方法：findById
+    private String service; // 接口的全限定名，带目录的哪种com.jingwei.rpc.provider.serviceImpl.UserServiceImpl
+    private String methodSign;  // 方法：findById@Integer
     private Object[] args;  // 参数： 100
 
 }

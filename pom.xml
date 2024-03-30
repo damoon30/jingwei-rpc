@@ -22,6 +22,7 @@
         <module>jingwei-rpc-core</module>
         <module>jingwei-rpc-api</module>
         <module>jingwei-rpc-provider</module>
+        <module>jingwei-rpc-consumer</module>
     </modules>
 
     <properties>

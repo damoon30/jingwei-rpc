@@ -1,0 +1,21 @@
+POST http://localhost:8080/
+Content-Type: application/json
+
+{
+  "service": "com.jingwei.rpc.api.OrderService",
+  "methodSign": "findById",
+  "args": [100]
+}
+
+###
+POST http://localhost:8080/
+Content-Type: application/json
+
+{
+  "service": "com.jingwei.rpc.api.UserService",
+  "methodSign": "findById",
+  "args": [100]
+}
+
+###
+

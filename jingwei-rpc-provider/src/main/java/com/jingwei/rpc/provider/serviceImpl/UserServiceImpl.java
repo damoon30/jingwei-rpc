@@ -1,4 +1,4 @@
-package com.jingwei.rpc.provider.user;
+package com.jingwei.rpc.provider.serviceImpl;
 
 import com.jingwei.rpc.api.User;
 import com.jingwei.rpc.api.UserService;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class UserServiceImpl implements UserService {
     @Override
     public User findById(int id) {
-        return null;
+        return new User(id, "JW-" + System.currentTimeMillis());
     }
 
     @Override
