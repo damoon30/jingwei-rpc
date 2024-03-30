@@ -18,6 +18,22 @@ public class RpcResponse<T> {
 
     boolean status;  // 状态: true
     T data;   // new User
+    String message;   // new User
     Exception ex;
 
+    public static<T> RpcResponse<T> success(T data){
+        RpcResponse<T> tRpcResponse = new RpcResponse<>();
+        tRpcResponse.setStatus(true);
+        tRpcResponse.setData(data);
+        return tRpcResponse;
+    }
+
+
+    public static<T> RpcResponse<T> failed(String message){
+        RpcResponse<T> tRpcResponse = new RpcResponse<>();
+        tRpcResponse.setStatus(false);
+        tRpcResponse.setData(null);
+        tRpcResponse.setMessage(message);
+        return tRpcResponse;
+    }
 }

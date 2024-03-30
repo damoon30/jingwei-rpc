@@ -1,6 +1,5 @@
 package com.jingwei.rpc.core.api;
 
-import cn.kimmking.kkrpc.core.registry.ChangedListener;
 import com.jingwei.rpc.core.registry.ChangedListener;
 
 import java.util.List;

@@ -72,7 +72,7 @@ public class ProviderBootstrap implements ApplicationContextAware {
         RpcResponse rpcResponse = new RpcResponse();
         List<ProviderMeta> providerMetaList = skeleton.get(request.getService());
         try {
-            ProviderMeta meta = findProviderMeta(providerMetaList, request.getMethodSign());
+            ProviderMeta meta = findProviderMeta(providerMetaList, request.getMethod());
             Method method = meta.getMethod();
             Object[] args = processArgs(request.getArgs(), method.getParameterTypes());
             Object result = method.invoke(meta.getServiceImpl(), args);
