@@ -1,6 +1,7 @@
 package com.jingwei.rpc.provider;
 
 import com.alibaba.fastjson.JSON;
+import com.jingwei.rpc.api.User;
 import com.jingwei.rpc.core.annotation.JwProvider;
 import com.jingwei.rpc.core.api.RpcRequest;
 import com.jingwei.rpc.core.api.RpcResponse;
@@ -43,16 +44,37 @@ public class JingweiRpcProviderApplication {
         return providerBootstrap.invoke(request);
     }
 
-//
-//    @Bean
-//    ApplicationRunner providerRun(){
-//        return x-> {
+
+    @Bean
+    ApplicationRunner providerRun(){
+        return x-> {
+            RpcRequest request = new RpcRequest();
+            request.setService("com.jingwei.rpc.api.UserService");
+            request.setMethodSign("getId@1_float");
+            request.setArgs(new Object[]{1.11});
+            RpcResponse<Object> invoke = invoke(request);
+            log.info(JSON.toJSONString(invoke));
+
 //            RpcRequest request = new RpcRequest();
 //            request.setService("com.jingwei.rpc.api.UserService");
-//            request.setMethod("findById");
+//            request.setMethodSign("getId@1_com.jingwei.rpc.api.User");
+//            request.setArgs(new Object[]{new User(100, "1234")});
+//            RpcResponse<Object> invoke = invoke(request);
+//            log.info(JSON.toJSONString(invoke));
+
+//            RpcRequest request = new RpcRequest();
+//            request.setService("com.jingwei.rpc.api.UserService");
+//            request.setMethodSign("findById@1_int");
 //            request.setArgs(new Object[]{100});
 //            RpcResponse<Object> invoke = invoke(request);
 //            log.info(JSON.toJSONString(invoke));
-//        };
-//    }
+
+//            RpcRequest request2 = new RpcRequest();
+//            request2.setService("com.jingwei.rpc.api.UserService");
+//            request2.setMethodSign("findById@2_int_java.lang.String");
+//            request2.setArgs(new Object[]{100, "test"});
+//            RpcResponse<Object> invoke2 = invoke(request2);
+//            log.info(JSON.toJSONString(invoke2));
+        };
+    }
 }

@@ -6,6 +6,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.jingwei.rpc.core.api.RpcRequest;
 import com.jingwei.rpc.core.api.RpcResponse;
 import com.jingwei.rpc.core.util.HttpUtils;
+import com.jingwei.rpc.core.util.MethodUtils;
 import com.jingwei.rpc.core.util.TypeUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,10 +24,15 @@ public class JwInvocationHandler implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        if (MethodUtils.checkLocalMethod(method.getName())) {
+            return method.invoke(this, args);
+        }
+
         RpcRequest request = new RpcRequest();
         request.setService(service.getCanonicalName());
-        request.setMethodSign(method.getName());
+        request.setMethodSign(MethodUtils.methodSign(method));
         request.setArgs(args);
+
         RpcResponse<Object> rpcResponse = post(request);
 
         if(rpcResponse.isStatus()) {

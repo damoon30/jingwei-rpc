@@ -18,6 +18,8 @@ public class TypeUtils {
     public static Object cast(Object origin, Class<?> type) {
         if(origin == null) return null;
         Class<?> aClass = origin.getClass();
+        //判断当前的Class对象所表示的类，是不是参数中传递的Class对象所表示的类的父类，超接口，
+        // 或者是相同的类型。是则返回true，否则返回false。
         if(type.isAssignableFrom(aClass)) {
             return origin;
         }

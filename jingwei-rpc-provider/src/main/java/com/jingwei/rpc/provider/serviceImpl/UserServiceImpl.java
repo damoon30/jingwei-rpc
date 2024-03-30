@@ -5,6 +5,8 @@ import com.jingwei.rpc.api.UserService;
 import com.jingwei.rpc.core.annotation.JwProvider;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @JwProvider
 public class UserServiceImpl implements UserService {
@@ -15,7 +17,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(int id, String name) {
-        return null;
+        return new User(id, name);
     }
 
     @Override
@@ -24,8 +26,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public long getId(long id) {
+        return 1;
+    }
+
+    @Override
+    public long getId(float id) {
+        return 2;
+    }
+
+    @Override
     public int getId(User user) {
-        return 0;
+        return user.getId();
+    }
+
+    @Override
+    public List<Integer> getIds(List<Integer> ids) {
+        return ids;
     }
 
     @Override

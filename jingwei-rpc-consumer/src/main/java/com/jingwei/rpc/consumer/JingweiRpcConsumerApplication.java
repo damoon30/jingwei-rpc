@@ -14,6 +14,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Slf4j
 @SpringBootApplication
 @Import({ConsumerConfig.class})
@@ -32,11 +35,21 @@ public class JingweiRpcConsumerApplication {
     @Bean
     ApplicationRunner providerRun(){
         return x-> {
-            User user = userService.findById(1);
-            log.info("user={}",user);
+            List<Integer> lists = new ArrayList<>(){{add(1);add(2);}};
+            List<Integer> listStr = userService.getIds(lists);
+            log.info("userId2={}", listStr);
 
-            Order order = orderService.findById(1);
-            log.info("order={}",order);
+//            int id2 = userService.getId(new User(2, "12"));
+//            log.info("userId2={}", id2);
+
+//            User user2 = userService.findById(2, "12");
+//            log.info("user={}",user2);
+//
+//            User user = userService.findById(1);
+//            log.info("user={}",user);
+//
+//            Order order = orderService.findById(1);
+//            log.info("order={}",order);
         };
     }
 }
