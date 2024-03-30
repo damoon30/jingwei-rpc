@@ -112,3 +112,6 @@
 /jingwei-rpc-core/target/classes/com/jingwei/rpc/core/registry/ZkRegistryCenter.class
 /jingwei-rpc-core/target/*
 /jingwei-rpc-api/target/*
+/jingwei-rpc-consumer/target/*
+/jingwei-rpc-provider/target/*
+/.idea/*
