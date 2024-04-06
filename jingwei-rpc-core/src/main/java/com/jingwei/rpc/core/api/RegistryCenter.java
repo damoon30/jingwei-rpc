@@ -24,7 +24,7 @@ public interface RegistryCenter {
     void subscribe(String service, ChangedListener listener);
     // void heartbeat();
 
-    class StaticRegistryCenter implements RegistryCenter {
+     class StaticRegistryCenter implements RegistryCenter {
 
         List<String> providers;
         public StaticRegistryCenter(List<String> providers) {

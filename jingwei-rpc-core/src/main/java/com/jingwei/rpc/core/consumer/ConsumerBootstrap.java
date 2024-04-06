@@ -2,6 +2,7 @@ package com.jingwei.rpc.core.consumer;
 
 import com.jingwei.rpc.core.annotation.JwConsumer;
 import com.jingwei.rpc.core.api.LoadBalancer;
+import com.jingwei.rpc.core.api.RegistryCenter;
 import com.jingwei.rpc.core.api.Router;
 import com.jingwei.rpc.core.api.RpcContext;
 import com.jingwei.rpc.core.util.ToolUtils;
@@ -38,11 +39,7 @@ public class ConsumerBootstrap implements ApplicationContextAware, EnvironmentAw
         rpcContext.setRouter(router);
         rpcContext.setLoadBalancer(loadBalancer);
 
-        String urls = environment.getProperty("jwrpc.providers", "");
-        if (ToolUtils.isEmpty(urls)) {
-            log.info("jwrpc.provider is empty.");
-        }
-        List<String> providers = Arrays.asList(urls.split(","));
+        RegistryCenter rc = applicationContext.getBean(RegistryCenter.class);
 
 
         String[] names = applicationContext.getBeanDefinitionNames();
@@ -71,7 +68,7 @@ public class ConsumerBootstrap implements ApplicationContextAware, EnvironmentAw
                 Object consumer = stub.get(canonicalName);
 
                 if (consumer == null) {
-                    consumer = createConsumer(service, rpcContext, providers);
+                    consumer = createConsumerFromRegister(service, rpcContext, rc);
                 }
                 f.setAccessible(true);
                 try {
@@ -83,6 +80,12 @@ public class ConsumerBootstrap implements ApplicationContextAware, EnvironmentAw
             });
             log.info("init stub success = {}", stub);
         }
+    }
+
+    private Object createConsumerFromRegister(Class<?> service, RpcContext rpcContext, RegistryCenter rc) {
+        String serviceName = service.getCanonicalName();
+        List<String> providers = rc.fetchAll(serviceName);
+        return createConsumer(service, rpcContext, providers);
     }
 
     private Object createConsumer(Class<?> service, RpcContext rpcContext, List<String> providers) {

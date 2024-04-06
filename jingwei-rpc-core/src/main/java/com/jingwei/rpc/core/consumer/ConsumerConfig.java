@@ -1,6 +1,7 @@
 package com.jingwei.rpc.core.consumer;
 
 import com.jingwei.rpc.core.api.LoadBalancer;
+import com.jingwei.rpc.core.api.RegistryCenter;
 import com.jingwei.rpc.core.api.Router;
 import com.jingwei.rpc.core.cluster.RandomLoadBalancer;
 import lombok.extern.slf4j.Slf4j;
@@ -11,9 +12,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
+import java.util.List;
+
 @Configuration
 @Slf4j
 public class ConsumerConfig {
+
+    @Value("${jwrpc.providers}")
+    String servers;
 
     @Bean
     ConsumerBootstrap createConsumerBootstrap() {
@@ -37,5 +43,10 @@ public class ConsumerConfig {
             consumerBootstrap.start();
             log.info("ConsumerBootstrap started");
         };
+   }
+
+   @Bean
+    public RegistryCenter consumer_rc() {
+        return new RegistryCenter.StaticRegistryCenter(List.of(servers.split(",")));
    }
 }
