@@ -1,5 +1,8 @@
 package com.jingwei.rpc.core.consumer;
 
+import com.jingwei.rpc.core.api.LoadBalancer;
+import com.jingwei.rpc.core.api.Router;
+import com.jingwei.rpc.core.cluster.RandomLoadBalancer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +18,14 @@ public class ConsumerConfig {
     @Bean
     ConsumerBootstrap createConsumerBootstrap() {
        return new ConsumerBootstrap();
+   }
+    @Bean
+    Router createRouter() {
+       return Router.Default;
+   }
+    @Bean
+    LoadBalancer createLoadBalancer() {
+       return new RandomLoadBalancer();
    }
 
 

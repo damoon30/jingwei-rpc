@@ -3,6 +3,8 @@ package com.jingwei.rpc.provider.serviceImpl;
 import com.jingwei.rpc.api.User;
 import com.jingwei.rpc.api.UserService;
 import com.jingwei.rpc.core.annotation.JwProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -10,9 +12,14 @@ import java.util.List;
 @Component
 @JwProvider
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private Environment environment;
+
     @Override
     public User findById(int id) {
-        return new User(id, "JW-" + System.currentTimeMillis());
+        return new User(id, environment.getProperty("server.port")
+                +"_" + "JW-" + System.currentTimeMillis());
     }
 
     @Override

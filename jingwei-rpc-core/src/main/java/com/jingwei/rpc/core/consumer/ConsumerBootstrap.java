@@ -1,6 +1,10 @@
 package com.jingwei.rpc.core.consumer;
 
 import com.jingwei.rpc.core.annotation.JwConsumer;
+import com.jingwei.rpc.core.api.LoadBalancer;
+import com.jingwei.rpc.core.api.Router;
+import com.jingwei.rpc.core.api.RpcContext;
+import com.jingwei.rpc.core.util.ToolUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
@@ -11,10 +15,7 @@ import org.springframework.core.env.Environment;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Proxy;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Data
 @Slf4j
@@ -30,6 +31,20 @@ public class ConsumerBootstrap implements ApplicationContextAware, EnvironmentAw
 
 
     public void start() {
+        Router router = applicationContext.getBean(Router.class);
+        LoadBalancer loadBalancer = applicationContext.getBean(LoadBalancer.class);
+
+        RpcContext rpcContext = new RpcContext();
+        rpcContext.setRouter(router);
+        rpcContext.setLoadBalancer(loadBalancer);
+
+        String urls = environment.getProperty("jwrpc.providers", "");
+        if (ToolUtils.isEmpty(urls)) {
+            log.info("jwrpc.provider is empty.");
+        }
+        List<String> providers = Arrays.asList(urls.split(","));
+
+
         String[] names = applicationContext.getBeanDefinitionNames();
         for (String name : names) {
             Object bean = applicationContext.getBean(name);
@@ -56,7 +71,7 @@ public class ConsumerBootstrap implements ApplicationContextAware, EnvironmentAw
                 Object consumer = stub.get(canonicalName);
 
                 if (consumer == null) {
-                    consumer = createConsumer(service);
+                    consumer = createConsumer(service, rpcContext, providers);
                 }
                 f.setAccessible(true);
                 try {
@@ -70,9 +85,9 @@ public class ConsumerBootstrap implements ApplicationContextAware, EnvironmentAw
         }
     }
 
-    private Object createConsumer(Class<?> service) {
+    private Object createConsumer(Class<?> service, RpcContext rpcContext, List<String> providers) {
         return Proxy.newProxyInstance(service.getClassLoader(), new Class[]{service},
-                new JwInvocationHandler(service));
+                new JwInvocationHandler(service, rpcContext, providers));
     }
 
     private List<Field> findAnnotatedField(Class<?> aClass) {

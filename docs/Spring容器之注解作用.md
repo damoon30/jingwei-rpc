@@ -59,4 +59,35 @@ public class AnotherBean {
 通过 ApplicationContextAware 接口，Spring 容器可以将上下文对象注入到需要访问容器中的 Bean 或其他资源的类中，从而实现了依赖注入和资源获取的功能。这种机制可以使得代码更加灵活和可扩展，同时也方便了对 Spring 容器中资源的管理和使用。
 
 
+3、@Target注解  
+
+@Target 是 Java 中的一个元注解（Meta Annotation），用于标注其他注解的适用范围，即指定注解可以应用于哪些程序元素上。在 Java 中，注解可以应用于类、方法、字段等不同的程序元素上，而 @Target 注解就是用来规定这种适用范围的。
+
+具体来说，@Target 注解的作用是告诉编译器，被标注的注解可以应用于哪些类型的程序元素，从而限定了注解的使用范围，避免了在不恰当的地方使用注解。@Target 注解使用 ElementType 枚举类型作为参数，指定注解可以应用的目标类型。
+
+ElementType 枚举类型定义了以下几种目标类型：
+
+TYPE：可以应用于类、接口（包括注解类型）、枚举等。  
+FIELD：可以应用于字段（包括枚举常量）。  
+METHOD：可以应用于方法。  
+PARAMETER：可以应用于方法的参数。  
+CONSTRUCTOR：可以应用于构造方法。  
+LOCAL_VARIABLE：可以应用于局部变量。  
+ANNOTATION_TYPE：可以应用于注解类型。  
+PACKAGE：可以应用于包。  
+
+```java
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target({ElementType.TYPE, ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface MyAnnotation {
+    String value() default "default value";
+}
+
+```
+
 

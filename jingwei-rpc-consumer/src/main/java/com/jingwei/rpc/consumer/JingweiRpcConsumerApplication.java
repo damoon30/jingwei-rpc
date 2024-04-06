@@ -5,6 +5,8 @@ import com.jingwei.rpc.api.OrderService;
 import com.jingwei.rpc.api.User;
 import com.jingwei.rpc.api.UserService;
 import com.jingwei.rpc.core.annotation.JwConsumer;
+import com.jingwei.rpc.core.api.RpcRequest;
+import com.jingwei.rpc.core.api.RpcResponse;
 import com.jingwei.rpc.core.consumer.ConsumerConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +25,7 @@ import java.util.List;
 @Slf4j
 @SpringBootApplication
 @Import({ConsumerConfig.class})
+@RestController
 public class JingweiRpcConsumerApplication {
 
     public static void main(String[] args) {
@@ -30,6 +36,12 @@ public class JingweiRpcConsumerApplication {
     private UserService userService;
     @JwConsumer
     private OrderService orderService;
+
+
+    @RequestMapping("/hello")
+    public User hello(int id) {
+        return userService.findById(id);
+    }
 
 
     @Bean
